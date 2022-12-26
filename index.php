@@ -10,8 +10,13 @@ function exec_draw_image($path) {
     drawRect($img, 750,1050,961,1241);
     drawRect($img, 889,1282,1081,1440);
 
-    header('Content-Type: image/png');
-    imagepng($img);
+    # if you want to generate a picture showing on the browser
+    // header('Content-Type: image/png');
+    // imagepng($img);
+
+    # if you want to save this image as a file
+    imagepng($img, './generate.png');
+
     imagedestroy($img);
 }
 
@@ -42,17 +47,19 @@ function record_timer($start, $end)
     fclose($fp);
 }
 
-// start a timer
-$start_timer = hrtime(true);
-
 // drawing
 $img_path = "./image.png";
 
-exec_draw_image($img_path);
+if (file_exists($img_path)) {
+    // start a timer
+    $start_timer = hrtime(true);
 
-// stop timer
-$end_timer = hrtime(true);
+    exec_draw_image($img_path);
 
-record_timer($start_timer, $end_timer);
+    // stop timer
+    $end_timer = hrtime(true);
+
+    record_timer($start_timer, $end_timer);
+}
 
 ?>
